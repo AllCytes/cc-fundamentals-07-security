@@ -3,9 +3,31 @@
 # =============================================================================
 # Used by damage-control hooks to block dangerous operations
 # =============================================================================
+#
+# PROTECTION LEVELS:
+# ------------------
+# Each pattern can have one of two behaviors:
+#
+#   1. BLOCK (default) - Stops execution immediately
+#      - pattern: '\brm\s+-rf\b'
+#        reason: Recursive force delete
+#        # No "ask" field = BLOCKED
+#
+#   2. ASK - Prompts user for confirmation
+#      - pattern: '\bgit\s+checkout\s+\.'
+#        reason: Discards changes
+#        ask: true  # ← User can approve or deny
+#
+# To customize:
+#   - Add "ask: true" to any pattern to get confirmation prompts
+#   - Remove "ask: true" (or set to false) to enforce blocking
+#
+# See guides/protection-levels.md for full documentation.
+# =============================================================================
 
 # === BASH TOOL PATTERNS (~30 patterns) ===
 # Patterns that trigger blocking or confirmation for bash commands
+# Default behavior: BLOCK (unless "ask: true" is specified)
 bashToolPatterns:
   # --- FILE DESTRUCTION (10 patterns) ---
   - pattern: '\brm\s+(-[^\s]*)*-[rRf]'
