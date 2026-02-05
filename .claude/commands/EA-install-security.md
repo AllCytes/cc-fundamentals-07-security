@@ -105,8 +105,8 @@ Add this configuration to the appropriate settings.json:
 ```
 
 Replace `[PATH]` with:
-- Global: `~/.claude` (or full path like `/Users/username/.claude`)
-- Project: `.claude` or `${CLAUDE_PROJECT_DIR}/.claude`
+- Global: Full absolute path like `C:/Users/username/.claude` or `/Users/username/.claude`
+- Project: `.claude` (relative path — works on all platforms)
 
 ### Step 5: Verify Installation
 

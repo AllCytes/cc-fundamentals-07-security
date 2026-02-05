@@ -8,8 +8,7 @@ hooks:
     - matcher: "Read"
       hooks:
         - type: command
-          command: >-
-            uv run $CLAUDE_PROJECT_DIR/.claude/hooks/damage-control/bash-output-validator.py
+          command: uv run .claude/hooks/damage-control/bash-output-validator.py
 ---
 
 # Secure File Reader Agent
