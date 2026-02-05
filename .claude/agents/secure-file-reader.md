@@ -3,6 +3,13 @@ name: secure-file-reader
 description: Reads files and warns if secrets are detected in the content
 model: sonnet
 allowed-tools: Read, Glob, Grep
+hooks:
+  PostToolUse:
+    - matcher: "Read"
+      hooks:
+        - type: command
+          command: >-
+            uv run $CLAUDE_PROJECT_DIR/.claude/hooks/damage-control/bash-output-validator.py
 ---
 
 # Secure File Reader Agent
@@ -47,27 +54,3 @@ The hook reuses `bash-output-validator.py` which detects:
 - AWS credentials (AKIA...)
 - Private keys (-----BEGIN PRIVATE KEY-----)
 - Bearer tokens
-
-## Required Hook Configuration
-
-The secret detection hook must be configured in your project's `.claude/settings.json`. Add the following:
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Read",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "uv run \"${CLAUDE_PROJECT_DIR}/.claude/hooks/damage-control/bash-output-validator.py\""
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-Use the `/EA-install` command to set this up automatically.
