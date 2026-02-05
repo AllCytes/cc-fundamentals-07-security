@@ -170,14 +170,21 @@ def main():
 
     tool_name = input_data.get("tool_name", "")
 
-    if tool_name != "Bash":
+    # Extract content based on tool type
+    if tool_name == "Bash":
+        tool_output = input_data.get("tool_output", {})
+        stdout = str(tool_output.get("stdout", ""))
+        stderr = str(tool_output.get("stderr", ""))
+        content = stdout + "\n" + stderr
+    elif tool_name == "Read":
+        tool_output = input_data.get("tool_output", {})
+        # Read tool output is typically a string (file content) or has a content field
+        if isinstance(tool_output, str):
+            content = tool_output
+        else:
+            content = str(tool_output.get("content", tool_output.get("output", "")))
+    else:
         sys.exit(0)
-
-    tool_output = input_data.get("tool_output", {})
-    stdout = str(tool_output.get("stdout", ""))
-    stderr = str(tool_output.get("stderr", ""))
-
-    content = stdout + "\n" + stderr
 
     if not content.strip():
         sys.exit(0)
