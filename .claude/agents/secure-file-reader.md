@@ -1,9 +1,13 @@
 ---
 description: Reads files and warns if secrets are detected in the content
+model: sonnet
+allowed-tools: Read, Glob, Grep
 hooks:
-  post_tool_use:
+  PostToolUse:
     - matcher: Read
-      command: uv run ${CLAUDE_PROJECT_DIR}/.claude/hooks/damage-control/bash-output-validator.py
+      hooks:
+        - type: command
+          command: uv run "${CLAUDE_PROJECT_DIR}/.claude/hooks/damage-control/bash-output-validator.py"
 ---
 
 # Secure File Reader Agent
